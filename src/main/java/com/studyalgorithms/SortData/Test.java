@@ -16,6 +16,8 @@ public class Test {
 
         System.out.println( "希尔排序" + Arrays.toString(new SortMethod().shellSortMethod(Arrays.copyOf(arr,arr.length))));
 
+        System.out.println( "归并排序" + Arrays.toString(new SortMethod().mergeSortMethod(Arrays.copyOf(arr,arr.length))));
+
 
     }
 }

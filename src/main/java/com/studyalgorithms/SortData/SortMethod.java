@@ -1,7 +1,5 @@
 package com.studyalgorithms.SortData;
 
-import cn.hutool.core.date.TimeInterval;
-
 /**
  * @Author: weihu01
  *
@@ -133,20 +131,117 @@ public class SortMethod {
 
             // 每个增量内进行插入排序
             for (int i=gap; i<n; i++){
-                int index = i-1;
+                int index = i - gap;
 
                 int insertVal = arr[i];
 
                 while (index >=0 && arr[index] > insertVal){
-                    arr[index+1] = arr[index];
-                    index --;
+                    arr[index + gap] = arr[index];
+                    index -= gap;
                 }
-                arr[index+1] = insertVal;
+                arr[index + gap] = insertVal;
             }
         }
 
         return arr;
     }
 
+
+    /**
+     * 归并排序
+     * 时间复杂度 O(nlogn)
+     * 空间复杂度 O(n)
+     * 基本思想是将待排序的数组分成若干个子序列，每个子序列都是有序的，然后再将子序列合并成一个有序的数组。
+     * 1.递归划分数组
+     * 2.合并数组
+     *
+     * @param arr
+     * @return
+     */
+    public int[] mergeSortMethod(int[] arr) {
+
+        int n = arr.length;
+
+        // 入口
+        divideMethod(arr, 0, n - 1);
+
+        return arr;
+    }
+
+    /**
+     * 递归划分
+     *
+     * @param arr
+     * @param l
+     * @param r
+     */
+    private void divideMethod(int[] arr, int l, int r) {
+
+        if (l < r) {
+
+            int mid = (r + l) / 2;
+
+            // 左半区
+            divideMethod(arr, l, mid);
+
+            // 右半区
+            divideMethod(arr, mid + 1, r);
+
+            // 合并
+            mergeMethod(arr, l, mid, r);
+
+        }
+
+    }
+
+    /**
+     * 归并算法 --- 合并
+     *
+     * @param arr
+     * @param left
+     * @param mid
+     * @param right
+     */
+    private void mergeMethod(int[] arr, int left, int mid, int right) {
+
+        // 存放合并后的临时数组
+        int[] temp = new int[right - left + 1];
+
+        // 左半区首位
+        int i = left;
+
+        // 右半区首位
+        int j = mid + 1;
+
+        // 临时数组下标
+        int k = 0;
+
+        // 合并左右半区
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+            }
+        }
+
+        // 合并剩下的左半区
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        // 合并剩下的右半区
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        // 原位复制到一开始的数组
+        for (int p = 0; p < temp.length; p++) {
+
+            arr[left + p] = temp[p];
+
+        }
+
+    }
 
 }
